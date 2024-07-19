@@ -1,0 +1,252 @@
+@font-face {
+    font-family: "SDGothic";
+    src: url("THE_HongChawangjanemo.ttf") format("truetype");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'LeeSeoyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UhBeeSe_hyun';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html,
+body {
+    height: 100%;
+    background-image: url("imges/background.png");
+    background-position: center;
+    background-size: cover;
+}
+
+/* 드래그 색상 */
+::selection {
+    background: #82b894;
+    color: #fff;
+}
+
+.diary1 {
+    height: 90%;
+    width: 1000px;
+    border: 3px solid black;
+    border-radius: 20px 0 0 20px;
+    border-right: 3px solid #00aa1a;
+    background-color: #e4f2e7;
+    background-size: cover;
+    overflow: scroll;
+}
+
+.diary1::-webkit-scrollbar {
+    display: none
+}
+
+
+.diary2 {
+    height: 90%;
+    width: 1000px;
+    border: 3px solid black;
+    border-left: 3px solid #00aa1a;
+    background-color: #e4f2e7;
+    background-size: cover;
+    overflow: scroll;
+}
+
+.diary2::-webkit-scrollbar {
+    display: none
+}
+
+
+.menu3 {
+    width: 50px;
+    background-color: #00aa1a;
+    height: 15%;
+    border-radius: 0 10px 10px 0;
+    margin: -1px auto;
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    border: 3px solid black;
+    transition: background-color 0.3s, color 0.3s, width 0.3s;
+}
+
+/* 다이어리 왼쪽 */
+.diary1_img {
+    display: flex;
+    margin-right: 8%;
+}
+
+.diary1_img img {
+    width: 50%;
+    height: auto;
+    margin: 30px;
+    align-items: left;
+    border-radius: 20px !important;
+}
+
+.diary1_img2 {
+    margin: 0 30px 30px 0;
+    display: flex;
+    justify-content: right;
+    position: absolute;
+    z-index: 2;
+}
+
+.diary1_img2_2 {
+    width: 25%;
+    height: auto;
+    border-radius: 20px !important;
+    position: relative;
+    top: 40vh;
+    right: -92%;
+
+}
+
+.diary1_img2_1 {
+    width: 10vw;
+    height: auto;
+    border-radius: 20px !important;
+    position: relative;
+    top: 35vh;
+    right: 80%;
+}
+
+.diary1_text {
+    text-align: left;
+    padding: 15px;
+    font-family: 'UhBeeSe_hyun';
+    font-size: 1.8vh;
+
+}
+
+.diary1_text p,
+.diary1_text2 p {
+    color: #377037;
+}
+
+.diary1_text span {
+    font-family: 'LeeSeoyun' !important;
+    font-size: 2.5vh;
+    color: #000000;
+}
+
+.diary1_text a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.diary1_text div img {
+    width: 15%;
+    height: auto;
+}
+
+.diary1_text div {
+    margin-top: 13%;
+}
+
+.diary1_text2 {
+    text-align: left;
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-top: 10%;
+    font-family: 'UhBeeSe_hyun';
+    font-size: 1.8vh;
+    position: relative;
+    left: 10px;
+    top: -70px;
+    z-index: 1;
+}
+
+.diary1_text2 a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.diary1_text2 span {
+    font-family: 'LeeSeoyun' !important;
+    font-size: 2.5vh;
+    color: #000000;
+    justify-content: center;
+}
+
+
+/* 다이어리 오른쪽 */
+
+.diary2 p {
+    font-family: 'UhBeeSe_hyun';
+    font-size: 3vh;
+}
+
+.diary2_qa {
+    padding: 0 5% 0 5%;
+    font-family: 'LeeSeoyun';
+    text-align: left;
+}
+
+.diary2_q {
+    color: #00aa1a;
+    font-size: 2.5vh !important;
+}
+
+.diary2_qa span {
+    font-family: 'LeeSeoyun' !important;
+    color: #000000;
+}
+
+.diary2 {
+    overflow: scroll;
+}
+
+.diary2::-webkit-scrollbar {
+    display: none
+}
+
+#open {
+    animation: open 0.5s ease forwards;
+}
+
+@keyframes open {
+    from {
+        transform: scaleX(0%);
+        visibility: visible;
+        transition-timing-function: ease-out;
+    }
+
+    to {
+        transform: scaleX(100%);
+    }
+}
+
+/*좋아요 버튼*/
+.likebtn {
+    border: 0;
+    background-color: transparent;
+    width: auto;
+    height: auto;
+    position: relative;
+    padding: 0;
+}
+
+#likeCount {
+    font-size: 1.5vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'IM_Hyemin-Bold';
+    font-weight: bold;
+    color: white;
+}
+
+.fa-heart {
+    width: 6vh;
+    height: 6vh;
+    cursor: pointer;
+    fill: #ff5252;
+}

@@ -1,0 +1,133 @@
+#form-commentInfo {
+    width: 100%;
+}
+
+#comment-count {
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+#comment-input {
+    width: 40%;
+    height: 3.3em;
+    border-radius: 10px;
+    border: 1px solid #979797;
+}
+
+#user-input {
+    width: 10%;
+    height: 3.3em;
+    border-radius: 10px;
+    border: 1px solid #979797;
+}
+
+#submit {
+    background-color: rgb(0, 128, 255);
+    width: 5.5em;
+    height: 3.3em;
+    font-size: 15px;
+    font-weight: bold;
+    color: aliceblue;
+    border-radius: 10px;
+    border: 1px solid white;
+}
+
+
+
+#comments {
+    margin-top: 30px;
+    overflow: scroll;
+    height: 80%;
+}
+
+#comments::-webkit-scrollbar {
+    display: none;
+}
+
+.eachComment {
+    width: 90%;
+    margin: 30px;
+    padding: 0.5em;
+    border-bottom: 1px solid #c1bcba;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.eachComment .name {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-bottom: 0.3em;
+    display: flex;
+}
+
+.eachComment .inputValue {
+    font-size: 1em;
+    display: flex;
+}
+
+.eachComment .time {
+    font-size: 0.7em;
+    color: #c1bcba;
+    font-style: oblique;
+    display: flex;
+    margin-bottom: 0.5em;
+}
+
+
+.eachComment .deleteComment {
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: transparent;
+    border-radius: 0.5em;
+    width: 50px;
+    height: 30px;
+}
+
+.toggleLike {
+    background-color: transparent;
+    border: transparent;
+    padding: 0px;
+    margin: 0px;
+    fill: red;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    width: 15%;
+}
+
+.likeheart {
+    width: 20px;
+    fill: rgb(0, 128, 255);
+    display: block;
+}
+
+.likeCount {
+    display: block;
+}
+
+#close {
+    animation: close 0.5s ease forwards;
+}
+
+@keyframes close {
+    from {
+        transform: scaleX(3);
+        visibility: visible;
+        transition-timing-function: ease-out;
+    }
+
+    to {
+        transform: scaleX(1);
+    }
+}
+
+html,
+body {
+    height: 100%;
+    background-image: url("https://s3.ap-northeast-2.amazonaws.com/materials.spartacodingclub.kr/bucketList/bg-grid.png");
+    background-position: center;
+    background-size: cover;
+}

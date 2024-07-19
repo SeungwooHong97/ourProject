@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Like Button Example</title>
+
+    <style>
+        .fa-heart {
+            width: 6vh;
+            height: 6vh;
+            cursor: pointer;
+            fill: red;
+        }
+        
+        .likebtn {
+            border: 0;
+            background-color: transparent;
+            width: auto;
+            height: auto;
+            position: relative;
+            padding: 0;
+        }
+
+        #likeCount {
+            font-size: 2vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    </style>
+
+</head>
+<body>
+    <div>
+        <button id="likeButton" class="likebtn">
+            <svg id="toggleImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="fa-heart">
+                <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/></svg>
+            <span id="likeCount">0</span>
+        </button>
+    </div>
+
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, getDoc, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyCABiHiGzxGELpkUPOgFO_sgwI2SqUblLw",
+            authDomain: "diary-be831.firebaseapp.com",
+            projectId: "diary-be831",
+            storageBucket: "diary-be831.appspot.com",
+            messagingSenderId: "1030858653688",
+            appId: "1:1030858653688:web:e25e3a5d7965126b84600d"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const likeButton = document.getElementById("likeButton");
+       
+        async function toggleHeart() {
+            const userId = crypto.randomUUID(); // 로그인 없이 유니크한 사용자 ID 생성
+            const postId = "postId"; // 각자 이름
+            const postRef = doc(db, "profile", postId); // 수정 안하셔도 됩니다!
+            const userLikeRef = doc(collection(postRef, "likedUsers"), userId);
+
+            const docSnap = await getDoc(userLikeRef);
+            let likeCount = 0;
+
+            if (docSnap.exists()) {
+                await deleteDoc(userLikeRef);
+                await updateDoc(postRef, { likeCount: increment(-1) });
+                document.getElementById("toggleImg").classList.remove("filled");
+            } else {
+                await setDoc(userLikeRef, {});
+                await updateDoc(postRef, { likeCount: increment(1) });
+                document.getElementById("toggleImg").classList.add("filled");
+            }
+
+            const postSnap = await getDoc(postRef);
+            if (postSnap.exists()) {
+                likeCount = postSnap.data().likeCount;
+            }
+
+            document.getElementById("likeCount").innerText = likeCount;
+        }
+
+        likeButton.addEventListener("click", toggleHeart); // 클릭 이벤트 리스너 추가
+
+        document.addEventListener("DOMContentLoaded", async () => { // DOMContentLoaded 이벤트 리스너 추가
+            const postId = "postId"; // 각자 이름
+            const postRef = doc(db, "profile", postId); // 수정 안하셔도 됩니다!!
+            const postSnap = await getDoc(postRef);
+
+            if (postSnap.exists()) {
+                document.getElementById("likeCount").innerText = postSnap.data().likeCount || 0; // 좋아요 수 표시 코드
+            }
+        });
+    </script>
+</body>
+</html>

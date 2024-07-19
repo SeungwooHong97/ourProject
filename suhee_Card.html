@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>😺정다롱월드</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        @font-face {
+            font-family: 'IM_Hyemin-Bold';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/IM_Hyemin-Regular.woff2') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .diary1 {
+            height: 90%;
+            width: 1000px;
+            border: 3px solid black;
+            border-radius: 20px 0 0 20px;
+            border-right: 3px solid #ffcaca;
+            background-image: url(https://mblogthumb-phinf.pstatic.net/MjAyMDEyMTNfMTkw/MDAxNjA3ODI4MDk4NzY3.ETzrqCWnQzSSRcgKBk2dhB_tZMdDJtDT6zkAflFINPwg.inmIAUH-3mVN1IKBwbUZryEhba4R9uko0cY2gAnrUMwg.PNG.lily__s/%EB%A9%94%EB%AA%A8.png?type=w800);
+            background-size: cover;
+            text-align: left;
+            font-family: 'IM_Hyemin-Bold';
+            overflow: scroll;
+        }
+
+        .diary1::-webkit-scrollbar {
+            display: none
+        }
+
+        .diary2 {
+            height: 90%;
+            width: 1000px;
+            border: 3px solid black;
+            border-left: 3px solid #ffcaca;
+            background-image: url(https://mblogthumb-phinf.pstatic.net/MjAyMDEyMTNfMTkw/MDAxNjA3ODI4MDk4NzY3.ETzrqCWnQzSSRcgKBk2dhB_tZMdDJtDT6zkAflFINPwg.inmIAUH-3mVN1IKBwbUZryEhba4R9uko0cY2gAnrUMwg.PNG.lily__s/%EB%A9%94%EB%AA%A8.png?type=w800);
+            background-size: cover;
+            font-family: 'IM_Hyemin-Bold';
+            overflow: scroll;
+        }
+
+        .diary2::-webkit-scrollbar {
+            display: none
+        }
+
+        #suhee {
+            background-color: #FF7E7E;
+            color: white;
+        }
+
+        .profileimg {
+            background-size: cover;
+            background-position: center;
+            width: 50%;
+            height: auto;
+            border-radius: 10px;
+            margin: 2vh 2vh 1vh 2vh;
+            display: inline-block;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .profiletext {
+            display: inline-block;
+            width: 40%;
+            vertical-align: top;
+            margin-top: 2vh;
+            font-size: 2.5vh;
+            text-align: center;
+        }
+
+        .profile-qa {
+            font-size: 2vh;
+            text-align: center;
+        }
+
+        .profiletext span,
+        .profile-qa span {
+            font-weight: bold;
+            font-size: 2.5vh;
+        }
+
+        .decotext {
+            font-size: 1.6vh;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .fa-heart {
+            width: 6vh;
+            height: 6vh;
+            cursor: pointer;
+            fill: #ff5252;
+        }
+
+        .likebtn {
+            border: 0;
+            background-color: transparent;
+            width: auto;
+            height: auto;
+            position: relative;
+            padding: 0;
+        }
+
+        #likeCount {
+            font-size: 1.5vh;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'IM_Hyemin-Bold';
+            font-weight: bold;
+            color: white;
+        }
+
+        body {
+            background-image: url(https://images.unsplash.com/photo-1554189097-ffe88e998a2b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /*모달 관련*/
+        .modal_btn {
+            display: block;
+            border: none;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        .modal.on {
+            display: block;
+        }
+
+
+        .modal {
+            /*팝업 배경*/
+            display: none;
+            /*평소에는 보이지 않도록*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal .modal_popup {
+            /*팝업*/
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 20px;
+        }
+
+        .modal .modal_popup .close_btn {
+            display: block;
+            padding: 10px 20px;
+            background-color: #ff5252;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+    </style>
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, updateDoc, increment, getDoc, collection, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyCABiHiGzxGELpkUPOgFO_sgwI2SqUblLw",
+            authDomain: "diary-be831.firebaseapp.com",
+            projectId: "diary-be831",
+            storageBucket: "diary-be831.appspot.com",
+            messagingSenderId: "1030858653688",
+            appId: "1:1030858653688:web:e25e3a5d7965126b84600d"
+        };
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const likeButton = document.getElementById("likeButton");
+
+        async function toggleHeart() {
+            const userId = crypto.randomUUID(); // 로그인 없이 유니크한 사용자 ID 생성
+            const postId = "suhee"; // 예제 포스트 ID
+            const postRef = doc(db, "profile", postId); // 경로 수정
+            const userLikeRef = doc(collection(postRef, "likedUsers"), userId);
+
+            const docSnap = await getDoc(userLikeRef);
+            let likeCount = 0;
+
+            if (docSnap.exists()) {
+                await deleteDoc(userLikeRef);
+                await updateDoc(postRef, { likeCount: increment(-1) });
+                document.getElementById("toggleImg").classList.remove("filled");
+            } else {
+                await setDoc(userLikeRef, {});
+                await updateDoc(postRef, { likeCount: increment(1) });
+                document.getElementById("toggleImg").classList.add("filled");
+            }
+
+            const postSnap = await getDoc(postRef);
+            if (postSnap.exists()) {
+                likeCount = postSnap.data().likeCount;
+            }
+
+            document.getElementById("likeCount").innerText = likeCount;
+        }
+
+        likeButton.addEventListener("click", toggleHeart); // 클릭 이벤트 리스너 추가
+
+        document.addEventListener("DOMContentLoaded", async () => { // DOMContentLoaded 이벤트 리스너 추가
+            const postId = "suhee"; // 예제 포스트 ID
+            const postRef = doc(db, "profile", postId); // 경로 수정
+            const postSnap = await getDoc(postRef);
+
+            if (postSnap.exists()) {
+                document.getElementById("likeCount").innerText = postSnap.data().likeCount || 0; // 좋아요 수 표시 코드
+            }
+        });
+
+        // 이미지 슬라이드 기능 추가
+        document.addEventListener("DOMContentLoaded", () => {
+            const images = ['./images/suhee1.jpg', './images/suhee1-2.jpg',];
+            let currentIndex = 0;
+            const profileImage = document.querySelector('.profileimg');
+
+            setInterval(() => {
+            profileImage.style.opacity = 0; // 페이드 아웃
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % images.length;
+                profileImage.src = images[currentIndex];
+                profileImage.style.opacity = 2; // 페이드 인
+            }, 1000); // 페이드 아웃 시간 (1초)과 일치시킴
+        }, 3000); // 2초마다 이미지 전환
+        });
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const modal = document.querySelector('.modal');
+            const modalOpen = document.querySelector('.modal_btn');
+            const modalClose = document.querySelector('.close_btn');
+
+            //열기 버튼을 눌렀을 때 모달팝업이 열림
+            modalOpen.addEventListener('click', function () {
+                //'on' class 추가
+                modal.classList.add('on');
+            });
+            //닫기 버튼을 눌렀을 때 모달팝업이 닫힘
+            modalClose.addEventListener('click', function () {
+                //'on' class 제거
+                modal.classList.remove('on');
+            });
+        });
+    </script>
+</head>
+
+<body class="scroll" id="open">
+    <div class="main">
+        <div class="diary1">
+            <img class="profileimg" src="./images/suhee1.jpg">
+            <div class="profiletext">
+                <p><span>이름</span> : 정수희</p>
+                <p><span>나이</span> : 26</p>
+                <p><span>MBTI</span> : ISFP</p>
+                <div style="position: relative;" class="modal_btn">
+                    <img src="./images/suhee4.png" style="width: 70%; transform: rotate(5deg);">
+                    <p class="decotext" style="position: absolute; bottom: 0px; right: 30px; transform: rotate(-5deg);">
+                        우리집 고양이 다롱이♥<BR>누르면 무슨 일이 일어날지도...</p>
+                </div>
+            </div>
+            <a href="https://velog.io/@darong_/posts"
+                style="text-decoration: none; color: #ff5252; margin-left: 15%; font-size: 1.5vh; font-weight: bold;">
+                https://velog.io/@darong_/posts</A>
+            <div class="profile-qa" style="position: relative; margin-top: 5vh;">
+                <img src="./images/suhee2.png"
+                    style="top: 60%; right: 5%; width: 17%; position: absolute; transform: rotate(15deg);">
+                <div style="position: relative; z-index: 1;">
+                    <p><span>취미</span> : 게임하기, E스포츠 경기 보기</p>
+                    <p><span>협업 스타일</span> : 소통을 자주 하고 다른 사람의 의견에 집중하는 편!</p>
+                    <p><span>나만의 스타일</span> : 노동요 틀어놓고 리듬타면서 일하면 능률이 올라감</p>
+                    <p style="line-height: 1.4;"><span>나의 장단점</span> : 하나를 시작하면 마음에 들 때까지 깎고 또 깎고!
+                        <br>다만.. 집중력이 좋지 않아서 하나를 마무리 하기까지 시간이 오래 걸림
+                    </p>
+                    <p><span>요즘 즐겨듣는 노래</span> :
+                        <a href="https://youtu.be/Zrly3QMUhoo?si=iTfbDL8PfOzgrmPQ" target="_blank"
+                            style="font-weight: bold; text-decoration: none; color: #FF7E7E">Lil Nas X
+                            - STAR WALKIN'</a>
+                    </p>
+                    <p><span>한마디</span> : 저희 다롱이 귀엽죠?</p>
+                </div>
+            </div>
+        </div>
+        <div class="diary2" style="position: relative;">
+            <div style="position: absolute; top: 5%; left: 5%;">
+                <button id="likeButton" class="likebtn">
+                    <svg id="toggleImg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="fa-heart">
+                        <path
+                            d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" />
+                    </svg>
+                    <span id="likeCount">0</span>
+                </button>
+            </div>
+            <div class="profile-qa"
+                style="line-height: 1.6; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80%;">
+                <p><span>가장 행복했던 순간</span><br>조금 쌀쌀한 새벽에 좋아하는 노래 들으면서<br>산책하는 순간이 가장 행복한 것 같다!</p>
+                <p><span>인생의 목표</span><br>반려동물들과 함께 여유롭게 사는 삶</p>
+                <p><span>Q. 고양이가 너무 귀엽습니다. 품종이 뭔가요?.</span><br>A. 먼치킨 숏 레그입니다!! 다리가 짧은 게 매력인 고냥이</p>
+                <p><span>Q. T1은 언제부터 좋아하셨나요?</span><br>A. 2019년도부터 좋아했습니다! 롤을 그때부터 시작해서...<BR>더 일찍 알았으면 좋았겠다 하는 생각을 가끔 해요.</p>
+                <p><span>Q. 게임은 어떤 거 좋아하시나요?</span><br>A. 장르는 가리지 않지만 실사체?에 가까운 게임은 별로 안 하는 것 같아요.<BR>가장 자주 하는 건 FPS게임!</p>
+                <p><span>Q. T1에서 최애 멤버를 뽑자면 누구인가요?</span><br>A. 하... 너무 어렵네요...<br>진짜 진짜 뽑자면.. 케리아 선수?</p>
+            </div>
+        </div>
+        <div class="menu-container">
+            <div class="menu"><span class="matename">
+                    <a href="./introduce/intro_team.html" style="text-decoration: none; color: inherit;">TEAM</a></span>
+            </div>
+            <div class="menu1"><span class="matename">
+                    <a href="./dayeon_Card.html" style="text-decoration: none; color: inherit;">DAYEON</a></span>
+            </div>
+            <div class="menu2"><span class="matename">
+                    <a href="./sujin_Card.html" style="text-decoration: none; color: inherit;">SUJIN</a></span>
+            </div>
+            <div class="menu3"><span class="matename">
+                    <a href="./hyunji/hyunji_Card.html" style="text-decoration: none; color: inherit;">HYUNJI</a></span>
+            </div>
+            <div class="menu4" id="suhee"><span class="matename">
+                    <a href="./suhee_Card.html" style="text-decoration: none; color: inherit;">SUHEE</a></span>
+            </div>
+            <div class="menu5"><span class="matename">
+                    <a href="./seungwoo_Card.html" style="text-decoration: none; color: inherit;">SEUNGWOO</a></span>
+            </div>
+            <div class="menu"><span class="matename">
+                    <a href="./comment.html" style="text-decoration: none; color: inherit;">GUEST</a></span>
+            </div>
+        </div>
+
+        <!--모달 팝업-->
+        <div class="modal" style="position: absolute; z-index: 2;">
+            <div class="modal_popup">
+                <h3>저의 TMI는...</h3>
+                <p>저는 게임을 진짜진짜진짜 많이 합니다..</p>
+                <p>그럼 이만..</p>
+                <button type="button" class="close_btn">닫기</button>
+            </div>
+        </div>
+
+</body>
+
+</html>
+</body>
+
+
+</html>
